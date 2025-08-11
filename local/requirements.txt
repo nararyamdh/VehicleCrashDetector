@@ -1,0 +1,9 @@
+torch 
+torchaudio 
+torchvision
+transformers
+timm
+numpy
+mediapipe
+opencv-python
+matplotlib

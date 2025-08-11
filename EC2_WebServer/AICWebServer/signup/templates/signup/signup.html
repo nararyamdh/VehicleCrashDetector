@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup | SmartCCTV Studio</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/style2.css' %}">
+    <link rel="icon" href="{% static 'assets/logo-filled.webp' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="back img-back2" style="background-image: url('{% static 'assets/grunge-wall-texture.jpg' %}') !important; background-repeat: no-repeat; background-size: cover;">
+        <div class="form-panel">
+            {% if error %}
+                <div class="flex-1 error-msg" style="margin-bottom: 20px;">
+                    <img src="{% static 'assets/cancel.svg' %}" style="padding: 20px; box-sizing: border-box; width: 150px;">
+                    <p style="text-align: center; font-size: 20px; padding: 30px;">{{error}}</p>
+                </div>
+            {% endif %}
+            <div class="flex-1">
+                <img src="{% static 'assets/logo.webp' %}" style="padding: 20px; box-sizing: border-box; width: 150px;">
+            </div>
+            <div class="flex-1" style="width: 700px;">
+                <p style="text-align: center; font-size: 20px; padding: 30px;">Add your new account here! Don't forget to strengthen your password, so attackers cannot crack your account.</p>
+            </div>
+            <br>
+            <br>
+            <div class="flex-1">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="textbox-1">
+                        <img src="{% static 'assets/person.svg' %}" style="padding: 15px; box-sizing: border-box;">&nbsp;<input type="text" placeholder="Enter Full Name" class="input-1" name="name">
+                    </div>
+                    <br>
+                    <div class="textbox-1">
+                        <img src="{% static 'assets/email.svg' %}" style="padding: 15px; box-sizing: border-box;">&nbsp;<input type="text" placeholder="Enter Email" class="input-1" name="email">
+                    </div>
+                    <br>
+                    <div class="textbox-1">
+                        <img src="{% static 'assets/key.svg' %}" style="padding: 15px; box-sizing: border-box;">&nbsp;<input type="password" placeholder="Enter Password" class="input-1" name="password">
+                    </div>
+                    <br>
+                    <div class="textbox-1">
+                        <img src="{% static 'assets/key.svg' %}" style="padding: 15px; box-sizing: border-box;">&nbsp;<input type="password" placeholder="Re-Type Password" class="input-1" name="password2">
+                    </div>
+                    <br>
+                    <div class="textbox-3">
+                        <button type="submit" class="button-1"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease;" class="label-1">Next</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'scripts/dynamic.js' %}"></script>
+</body>
+</html>

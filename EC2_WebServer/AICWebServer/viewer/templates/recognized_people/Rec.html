@@ -1,0 +1,199 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/style2.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body style="user-select: none;">
+    <div class="menu" id="menu">
+        <div class="block-menu">
+            <div class="menu_button" style="margin-right: 15px; float: right;">
+                <button class="button-2" onclick="pin()"><img src="{% static 'assets/keep.svg' %}" style="box-sizing: border-box; float: left;" onclick="pin()"></button>
+            </div>
+            <div class="menu_button" style="margin-right: 15px; float: right;">
+                <button class="button-2" onclick="menu()"><img src="{% static 'assets/close.svg' %}" style="box-sizing: border-box; float: left;" onclick="menu()"></button>
+            </div>
+        </div>
+        <div style="width: 100%;height: 40px;display: flex;align-items: center;justify-content:baseline;"><h3 style="margin-left: 25px; font-size: 20px;">Tools</h3></div>
+        
+        <div class="block-menu">
+            <div class="menu_button" style=" float: right; width: 100%;">
+                <button class="button-5" onclick='location.href="{% url "dashboard" %}"'><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/CCTVManager.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;">&nbsp;&nbsp;&nbsp;CCTV Dashboard</span></button>
+            </div>
+        </div>
+        <div class="block-menu">
+            <div class="menu_button" onclick='location.href="{% url "dashboard" %}"' style=" float: right; width: 100%;">
+                <button class="button-5"><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/DataStream.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;DS Manager</span></button>
+            </div>
+        </div>
+        <div class="block-menu">
+            <div class="menu_button" style=" float: right; width: 100%;">
+                <button class="button-5" onclick='location.href="{% url "iam" %}"'><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/UserAccount.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;IAM Manager</span></button>
+            </div>
+        </div>
+        <div class="block-menu">
+            <div class="menu_button" style=" float: right; width: 100%;">
+                <button class="button-5" onclick='location.href="{% url "sos" %}"'><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/Call.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;Emergency SOS</span></button>
+            </div>
+        </div>
+        <br>
+        <div style="width: 100%;height: 40px;display: flex;align-items: center;justify-content:baseline;"><h3 style="margin-left: 25px; font-size: 20px;">Active Cams</h3></div>
+    </div>
+    <div class="back-2" id="back2">
+        <div class="header" id="header2">
+            <div class="header-left" style="margin-left: 15px;">
+                <div class="menu_button" style="float: left;">
+                    <button class="button-2" onclick="menu()"><img src="{% static 'assets/menu.svg' %}" onclick="menu()" style="box-sizing: border-box; float: left;"></button>
+                </div>
+                <div class="text_container" style="margin-left: 15px; float: left;">
+                    <img src="{% static 'assets/logo.webp' %}" style="box-sizing: border-box; width: 40px;">
+                </div>
+            </div>
+            <div class="header-right" style="margin-right: 15px; float: right; display: flex; align-items: center;">
+                
+                <!-- <div class="textbox-1" style="width: 400px; float: right; height: 37px;">
+                        <img src="{% static 'assets/search.svg' %}" style="padding: 9px; box-sizing: border-box;">&nbsp;<input type="text" placeholder="Search anything..." class="input-2">
+                </div>  -->
+                &nbsp;
+                &nbsp;
+                <!-- <div class="menu_button" style="margin-left: 15px; float: right;">
+                    <button class="button-2" id="addbutton"><img src="{% static 'assets/add.svg' %}" style="box-sizing: border-box; float: left;"></button>
+                </div> -->
+                <div class="menu_button" style="margin-left: 8px; float: right;">
+                    <button class="button-2"><img src="{% static 'assets/notifications.svg' %}" style="box-sizing: border-box; float: left;"></button>
+                </div>
+                <!-- <div class="menu_button" style="margin-left: 8px; float: right;">
+                    <button class="button-2"><img src="{% static 'assets/account.svg' %}" style="box-sizing: border-box; float: left;"></button>
+                </div> -->
+                
+            </div>
+        </div>
+        <div class="body_x" style="overflow-x: hidden;">
+            <div class="left">
+                <div class="container-1">
+                    <div class="block-menu-2" style="margin-top:10px;">
+                    <h3 style="font-size: 18px;">WebCam Manager</h3>
+                    </div>
+                    <div class="block-menu-3">
+                        <a href="{% url 'viewer' %}" class="link-1">Viewer</a>
+                    </div>
+                    <div class="block-menu-3">
+                        <a href="{% url 'captures' %}" class="link-1">Manual Captures</a>
+                    </div>
+                    <div class="block-menu-3">
+                        <a href="{% url 'recognized' %}" class="link-1" style="color: #e6bb13;">Accident Captures</a>
+                    </div>
+                    <br>
+                    <hr style="border: 0.5px solid #3f3f3f;">
+                    <br>
+                    <div class="block-menu-3">
+                        <a href="" class="link-1">Metrics</a>
+                    </div>
+                    <div class="block-menu-3">
+                        <a href="{% url 'alarm' %}" class="link-1">Alarm Monitor</a>
+                    </div>
+                    <br>
+                    <hr style="border: 0.5px solid #3f3f3f;">
+                    <div class="block-menu-2" style="margin-top:10px;padding-top:15px;padding-bottom:5px;">
+                        <h3 style="font-size: 17px;">Accidents Detected Today</h3>
+                    </div>
+                    <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
+                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                    </div>
+                    <div class="block-menu-2" style="margin-top:10px; padding-top:5px;padding-bottom:5px;">
+                        <h3 style="font-size: 17px;">Total Accidents Detected</h3>
+                    </div>
+                    <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
+                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                    </div>
+                    <div class="block-menu-2" style="margin-top:10px; padding-top:5px;padding-bottom:5px;">
+                        <h3 style="font-size: 17px;">Total Emergency Call</h3>
+                    </div>
+                    <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
+                        <img src="{% static 'assets/ecall.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                    </div>
+                    <br>
+                    <hr style="border: 0.5px solid #3f3f3f;">
+                    <br>
+                    <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
+                        <h3 style="font-size: 16px;">Alarms</h3>
+                    </div>
+                    <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
+                        <img src="{% static 'assets/warning.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;<h3 style="font-size: 20px;user-select:text;">0</h3>&nbsp;&nbsp;&nbsp;&nbsp;<img src="{% static 'assets/info.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;<h3 style="font-size: 20px;user-select:text;">0</h3>&nbsp;&nbsp;&nbsp;&nbsp;<img src="{% static 'assets/danger.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;<h3 style="font-size: 20px;user-select:text;">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="container-1">
+                    <div class="block-4" style="margin-top:40px; padding-top:0px;padding-bottom:0px;">
+                        <div>
+                            <h2 style="font-size: 30px;">Recognized People</h2>
+                            <h3 style="font-size: 17px;">Collected in AWS S3</h3>
+                        </div>
+                        <div>
+                            <button class="button-4" style="background-color: #262626; color: #fff; border: 1.5px solid #fff;">
+                                    <span style="z-index: 3;color: #fff;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">.csv</span>
+                            </button>
+                            &nbsp;
+                            <button class="button-4" style="background-color: #262626; color: #fff; border: 1.5px solid #fff;">
+                                    <span style="z-index: 3;color: #fff;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">.png (Zipped)</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-4" style="margin-top:40px; padding-top:0px;padding-bottom:0px;">
+                        <div class="container-2">
+                            <div class="tr" style="border-bottom: 2px solid #848484;padding-bottom: 15px;">
+                                <div class="th" style="border-right: 2px solid #b6b6b6;flex:1 !important;">
+                                    <label for="check1" style="font-size: 18px;" class="checkbox-wrapper"><input class="custom-checkbox" type="checkbox" name="remember" id="check1" ><span class="checkmark">
+                                </div>
+                                <div class="th" style="border-right: 2px solid #b6b6b6;">
+                                    <b>Picture</b>
+                                </div>
+                                <div class="th" style="border-right: 2px solid #b6b6b6;">
+                                    <b>Date Added</b>
+                                </div>
+                                <div class="th" style="border-right: 2px solid #b6b6b6;">
+                                    <b>Suspicion?</b>
+                                </div>
+                                <div class="th">
+                                    <b>More Description</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer" id="footer">
+            <div class="left-side">
+                <span style="font-size: 14px; margin-left: 50px; color:#b6b6b6; user-select:text;">Made with ❤️ by Tim Anak Sholeh - AIC COMPFEST</span>
+            </div>
+        </div>
+     </div>
+    </div>
+    <script>
+        screen = document.getElementById("screen");
+        contextMenu = document.getElementById("contextMenu1");
+        screen.addEventListener("contextmenu", function(e){
+            e.preventDefault();
+            contextMenu.style.top = `${e.pageY}px`;
+            contextMenu.style.left = `${e.pageX}px`;
+            contextMenu.style.display = "block";
+            
+        });
+        document.addEventListener("click", function() {
+            contextMenu.style.display = "none";
+        });
+    </script>
+    <script src="{% static 'scripts/dynamic.js' %}"></script>
+</body>
+</html>
