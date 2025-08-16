@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinesis Setup</title>
+    <link rel="stylesheet" href="{% static 'styles/style1.css' %}">
+    <link rel="icon" href="{% static 'assets/logo-filled.webp' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="text">
+                <img src="{% static 'assets/logo-filled.webp' %}" style="width: 100px;" alt="">
+            </div>
+            <br>
+            <div class="text">
+                <span style="font-size: 30px; font-weight: bold;">Enter Data Stream Name</span>
+            </div>
+            <div class="text">
+                <span style="font-size: 20px;">Stored in Amazon Kinesis</span>
+            </div>
+            <br>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="textbox-1">
+                    <img src="{% static 'assets/speed_camera.svg' %}" style="padding: 15px; box-sizing: border-box;">&nbsp;<input type="text" placeholder="Kinesis" class="input-1" name="kinesis">
+                </div>
+                <br>
+                <div class="textbox-1">
+                    <img src="{% static 'assets/camera.svg' %}" style="padding: 15px; box-sizing: border-box;">&nbsp;<input type="number" min="{{ min_x }}" max="{{ max_x }}" placeholder="Camera ID ({{ min_x }} - {{ max_x }})" class="input-1" name="camera">
+                </div>
+                <br>
+                <div class="textbox-1">
+                    <img src="{% static 'assets/location.svg' %}" style="padding: 15px; box-sizing: border-box;">&nbsp;<input type="text" placeholder="Location" class="input-1" name="location">
+                </div>
+                <br>
+                <div class="textbox-3">
+                    <button class="button-1" type="submit" name="submit_btn"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease;" class="label-1">Start Camera</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
