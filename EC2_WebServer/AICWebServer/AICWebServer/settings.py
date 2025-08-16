@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'dashboard',
     'login',
     'signup',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'AICWebServer.wsgi.application'
+ASGI_APPLICATION = 'AICWebServer.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [("127.0.0.1", 6379)]},
+    },
+}
 
 
 # Database

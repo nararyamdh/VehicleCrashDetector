@@ -1,39 +1,61 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import boto3
 import base64
 from django.views import View
+import sys
+sys.path.append('../')
+from dashboard.models import Cameras
+from dotenv import load_dotenv
+from . import consumers
+import os
 
-# class IframeKinesisPlain(View):
-#     def get(self, request):
-#         client = boto3.client('kinesis', region_name='ap-southeast-1')
-#         stream_name = 'kinesis_plain'
+load_dotenv("../../.credentials")
 
-#         shards = client.describe_stream(StreamName=stream_name)['StreamDescription']['Shards']
-#         shard_id = shards[0]['ShardId']
+s3 = boto3.client("s3", 
+                aws_access_key_id=os.getenv("ACCESS_KEY"),
+                aws_secret_access_key=os.getenv("SECRET_ACCESS_KEY"),
+                region_name="ap-southeast-1")
 
-#         shard_iterator = client.get_shard_iterator(
-#             StreamName=stream_name,
-#             ShardId=shard_id,
-#             ShardIteratorType='LATEST'
-#         )['ShardIterator']
+def viewer(request, id_x):
+    cam = get_object_or_404(Cameras, pk=id_x)
+    get_object = Cameras.objects.filter(id_x=id_x).values("id_x", "kinesis_datastream_name").first()
+    stream_name = get_object["kinesis_datastream_name"]
+    consumers.var = stream_name
+    print(stream_name)
+    return render(request, "index/SingleViewer.html",{"data_cam":cam, "stream_name":stream_name})
 
-#         records = client.get_records(ShardIterator=shard_iterator, Limit=1)['Records']
-#         if not records:
-#             return HttpResponse("NOTHING HERE", content_type="text/plain")
+def captures(request, id_x):
+    cam = get_object_or_404(Cameras, pk=id_x)
+    response = s3.list_objects_v2(Bucket='app-bucket-8283')
 
-#         data_base64 = records[0]['Data']
-#         image_bytes = base64.b64decode(data_base64)
-        
-#         return HttpResponse(image_bytes, content_type="image/jpeg")
+    objects = []
+    if 'Contents' in response:
+        for obj in response['Contents']:
+            url = s3.generate_presigned_url(
+                'get_object',
+                Params={
+                    'Bucket': 'app-bucket-8283',
+                    'Key': obj['Key']
+                },
+                ExpiresIn=3600
+            )
 
-def viewer(request):
-    return render(request, "index/SingleViewer.html")
+            objects.append({
+                'key': obj['Key'],
+                'size': int(obj['Size'])*0.001,
+                'last_modified': obj['LastModified'],
+                'url': url
+            })
+    return render(request, "captures/Captures.html",{"data_cam":cam,'objects': objects})
 
-def captures(request):
-    return render(request, "captures/Captures.html")
+def manual(request, id_x):
+    cam = get_object_or_404(Cameras, pk=id_x)
+    return render(request, "manual/manual.html",{"data_cam":cam})
 
-def recognized(request):
-    return render(request, "recognized_people/Rec.html")
+def metrics(request, id_x):
+    cam = get_object_or_404(Cameras, pk=id_x)
+    return render(request, "metrics/Metrics.html",{"data_cam":cam})
 
-def alarm(request):
-    return render(request, "alarm_monitor/Alarm.html")
+def alarm(request, id_x):
+    cam = get_object_or_404(Cameras, pk=id_x)
+    return render(request, "alarm_monitor/Alarm.html",{"data_cam":cam})

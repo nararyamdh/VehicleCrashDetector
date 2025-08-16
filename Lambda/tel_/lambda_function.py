@@ -1,16 +1,12 @@
 import json
 import sys
-from dotenv import load_dotenv
 sys.path.append(".")
-import os
 from twilio.rest import Client
-
-load_dotenv(".credentials")
 
 def lambda_handler(event, context):
     # TODO implement
-    account_sid = os.getenv("ACCOUNT_SID")
-    auth_token = os.getenv("AUTH_TOKEN")
+    account_sid = "AC51e1549702874aad90c1ee5a843ee504"
+    auth_token = "71b32cebe6d27608ff94670d9e4b82c5"
     client = Client(account_sid, auth_token)
 
     body = json.loads(event.get('body', '{}'))
@@ -22,8 +18,8 @@ def lambda_handler(event, context):
 
     call = client.calls.create(
         twiml=response,
-        to=os.getenv("CALL_TO"),
-        from_=os.getenv("CALL_FROM"),
+        to="+6281316435939",
+        from_="+14408052681",
     )
 
     return {

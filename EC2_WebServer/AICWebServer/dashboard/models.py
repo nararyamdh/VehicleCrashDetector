@@ -5,6 +5,15 @@ class Cameras(models.Model):
     camera_name = models.CharField(max_length=255, default='Unnamed')
     kinesis_datastream_name = models.CharField(max_length=255)
     visited_counter = models.IntegerField(default=0)
+    accidents_today_counter = models.IntegerField(default=0)
+    accidents_total_counter = models.IntegerField(default=0)
+    emergency_counter = models.IntegerField(default=0)
+    sqs_name = models.CharField(max_length=255, default='Unnamed')
+
+    exlamacion_alarm = models.IntegerField(default=0)
+    info_alarm = models.IntegerField(default=0)
+    danger_alarm = models.IntegerField(default=0)
+
     date_added = models.DateTimeField(auto_now_add=True)
 
 class DataStream(models.Model):

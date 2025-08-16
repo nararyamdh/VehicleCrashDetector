@@ -83,22 +83,22 @@
                     <h3 style="font-size: 18px;">WebCam Manager</h3>
                     </div>
                     <div class="block-menu-3">
-                        <a href="{% url 'viewer' %}" class="link-1">Viewer</a>
+                        <a href="{% url 'viewer' data_cam.id_x %}" class="link-1" style="color: #e6bb13;">Viewer</a>
                     </div>
                     <div class="block-menu-3">
-                        <a href="{% url 'captures' %}" class="link-1" style="color: #e6bb13;">Manual Captures</a>
+                        <a href="{% url 'manual' data_cam.id_x %}" class="link-1">Manual Captures</a>
                     </div>
                     <div class="block-menu-3">
-                        <a href="{% url 'recognized' %}" class="link-1">Accident Captures</a>
+                        <a href="{% url 'captures' data_cam.id_x %}" class="link-1">Accident Captures</a>
                     </div>
                     <br>
                     <hr style="border: 0.5px solid #3f3f3f;">
                     <br>
                     <div class="block-menu-3">
-                        <a href="" class="link-1">Metrics</a>
+                        <a href="{% url 'metrics' data_cam.id_x %}" class="link-1">Metrics</a>
                     </div>
                     <div class="block-menu-3">
-                        <a href="{% url 'alarm' %}" class="link-1">Alarm Monitor</a>
+                        <a href="{% url 'alarm' data_cam.id_x %}" class="link-1">Alarm Monitor</a>
                     </div>
                     <br>
                     <hr style="border: 0.5px solid #3f3f3f;">
@@ -106,19 +106,19 @@
                         <h3 style="font-size: 17px;">Accidents Detected Today</h3>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
-                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">{{ data_cam.accidents_today_counter }}</h2>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:5px;padding-bottom:5px;">
                         <h3 style="font-size: 17px;">Total Accidents Detected</h3>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
-                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">{{ data_cam.accidents_total_counter }}</h2>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:5px;padding-bottom:5px;">
                         <h3 style="font-size: 17px;">Total Emergency Call</h3>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
-                        <img src="{% static 'assets/ecall.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                        <img src="{% static 'assets/ecall.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">{{ data_cam.emergency_counter }}</h2>
                     </div>
                     <br>
                     <hr style="border: 0.5px solid #3f3f3f;">
@@ -132,11 +132,11 @@
                 </div>
             </div>
 
-            <div class="right">
+            <div class="right" style="overflow-y: scroll;">
                 <div class="container-1">
                     <div class="block-4" style="margin-top:40px; padding-top:0px;padding-bottom:0px;">
                         <div>
-                            <h2 style="font-size: 30px;">Captures</h2>
+                            <h2 style="font-size: 30px;">Accident Captures</h2>
                             <h3 style="font-size: 17px;">Collected in AWS S3</h3>
                         </div>
                         <div>
@@ -156,18 +156,49 @@
                                     <label for="check1" style="font-size: 18px;" class="checkbox-wrapper"><input class="custom-checkbox" type="checkbox" name="remember" id="check1" ><span class="checkmark">
                                 </div>
                                 <div class="th" style="border-right: 2px solid #b6b6b6;">
-                                    <b>Picture</b>
+                                    <b>Key</b>
+                                </div>
+                                <div class="th" style="border-right: 2px solid #b6b6b6;">
+                                    <b>Size</b>
                                 </div>
                                 <div class="th" style="border-right: 2px solid #b6b6b6;">
                                     <b>Date Added</b>
                                 </div>
-                                <div class="th" style="border-right: 2px solid #b6b6b6;">
-                                    <b>Suspicion?</b>
-                                </div>
                                 <div class="th">
-                                    <b>More Description</b>
+                                    <b>Download</b>
                                 </div>
                             </div>
+                            {% for object in objects %}
+                            <div class="tr" style="border-bottom: 2px solid #848484;padding-bottom: 15px; margin-top: 10px;">
+                                <div class="th" style="border-right: 2px solid #b6b6b6;flex:1 !important;">
+                                    <label for="check{{ item.id_x }}" style="font-size: 18px;" class="checkbox-wrapper"><input class="custom-checkbox" type="checkbox" name="remember" id="check{{ item.id_x }}" ><span class="checkmark">
+                                </div>
+                                <div class="th" style="border-right: 2px solid #b6b6b6;">
+                                    <span>{{ object.key }}</span>
+                                </div>
+                                <div class="th" style="border-right: 2px solid #b6b6b6;">
+                                    <span>{{ object.size }} KB</span>
+                                </div>
+                                <div class="th">
+                                    <span>{{ object.last_modified }}</span>
+                                </div>
+                                <div class="th">
+                                    <div class="menu_button" style="margin-right: 15px; float: right;">
+                                        <button class="button-2" onclick="location.href='{{ object.url }}'"><img src="{% static 'assets/download.svg' %}" style="box-sizing: border-box; float: left;"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="panel-4">
+                                <div >
+                                    <div class="panel-4">
+                                        <img src="{% static 'assets/paper-airline.png' %}" style="box-sizing: border-box; float: left; width:500px; ">
+                                    </div>
+                                    <span style="font-size: 30px; font-weight: bold; width: 100%; padding-left: 15px; padding-right: 15px; display: block; float: left;text-align:center;">File empty!</span>
+                                    <span style="font-size: 23px; font-weight: normal; display: block; float: left; width: 100%; padding-left: 15px; padding-right: 15px;text-align:center; margin-bottom: 30px;">No accident happened today.</span>
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

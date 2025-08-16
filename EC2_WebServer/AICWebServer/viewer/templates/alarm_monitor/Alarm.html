@@ -83,22 +83,22 @@
                     <h3 style="font-size: 18px;">WebCam Manager</h3>
                     </div>
                     <div class="block-menu-3">
-                        <a href="{% url 'viewer' %}" class="link-1">Viewer</a>
+                        <a href="{% url 'viewer' data_cam.id_x %}" class="link-1" style="color: #e6bb13;">Viewer</a>
                     </div>
                     <div class="block-menu-3">
-                        <a href="{% url 'captures' %}" class="link-1">Manual Captures</a>
+                        <a href="{% url 'manual' data_cam.id_x %}" class="link-1">Manual Captures</a>
                     </div>
                     <div class="block-menu-3">
-                        <a href="{% url 'recognized' %}" class="link-1">Accident Captures</a>
+                        <a href="{% url 'captures' data_cam.id_x %}" class="link-1">Accident Captures</a>
                     </div>
                     <br>
                     <hr style="border: 0.5px solid #3f3f3f;">
                     <br>
                     <div class="block-menu-3">
-                        <a href="" class="link-1">Metrics</a>
+                        <a href="{% url 'metrics' data_cam.id_x %}" class="link-1">Metrics</a>
                     </div>
                     <div class="block-menu-3">
-                        <a href="{% url 'alarm' %}" class="link-1" style="color: #e6bb13;">Alarm Monitor</a>
+                        <a href="{% url 'alarm' data_cam.id_x %}" class="link-1">Alarm Monitor</a>
                     </div>
                     <br>
                     <hr style="border: 0.5px solid #3f3f3f;">
@@ -106,19 +106,19 @@
                         <h3 style="font-size: 17px;">Accidents Detected Today</h3>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
-                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">{{ data_cam.accidents_today_counter }}</h2>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:5px;padding-bottom:5px;">
                         <h3 style="font-size: 17px;">Total Accidents Detected</h3>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
-                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                        <img src="{% static 'assets/crash.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">{{ data_cam.accidents_total_counter }}</h2>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:5px;padding-bottom:5px;">
                         <h3 style="font-size: 17px;">Total Emergency Call</h3>
                     </div>
                     <div class="block-menu-2" style="margin-top:10px; padding-top:0px;padding-bottom:0px;">
-                        <img src="{% static 'assets/ecall.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">0,00</h2>
+                        <img src="{% static 'assets/ecall.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;&nbsp;<h2 style="user-select:text;">{{ data_cam.emergency_counter }}</h2>
                     </div>
                     </div>
                     <hr style="border: 0.5px solid #3f3f3f;">
@@ -130,8 +130,6 @@
                         <img src="{% static 'assets/warning.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;<h3 style="font-size: 20px;user-select:text;">0</h3>&nbsp;&nbsp;&nbsp;&nbsp;<img src="{% static 'assets/info.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;<h3 style="font-size: 20px;user-select:text;">0</h3>&nbsp;&nbsp;&nbsp;&nbsp;<img src="{% static 'assets/danger.svg' %}" style="box-sizing: border-box; float: left;">&nbsp;<h3 style="font-size: 20px;user-select:text;">0</h3>
                     </div>
                 </div>
-            </div>
-
             <div class="right">
                 <div class="container-1">
                     <div class="block-4" style="margin-top:40px; padding-top:0px;padding-bottom:0px;">
@@ -213,6 +211,9 @@
                     </div>
                 </div>
             </div>
+            </div>
+
+            
         </div>
         <div class="footer" id="footer">
             <div class="left-side">

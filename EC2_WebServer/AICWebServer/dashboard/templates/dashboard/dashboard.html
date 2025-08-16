@@ -25,18 +25,21 @@
                 </div>
             </div>
             <br>
-            <div class="textbox-1" style="width: 100% !important;">
-                <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="CCTV Name" class="input-1" name="name">
-            </div>
-            <br>
-            <div class="textbox-1" style="width: 100% !important;">
-                <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="Kinesis Data Stream Name" class="input-1" name="name">
-            </div>
-            <br>
-            <div class="textbox-4" style="float: right !important;">
-                <button class="button-4" style="background-color: #262626; color: #fff; border: 1.5px solid #fff;" onclick="close_dialog()"><span style="z-index: 3;color: #fff;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Cancel</span></button>&nbsp;
-                <button class="button-4"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Create Now</span></button>
-            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="textbox-1" style="width: 100% !important;">
+                    <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="CCTV Name" class="input-1" name="cctv_name">
+                </div>
+                <br>
+                <div class="textbox-1" style="width: 100% !important;">
+                    <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="Kinesis Data Stream Name" class="input-1" name="kinesis_name_1">
+                </div>
+                <br>
+                <div class="textbox-4" style="float: right !important;">
+                    <button class="button-4" style="background-color: #262626; color: #fff; border: 1.5px solid #fff;" onclick="close_dialog()"><span style="z-index: 3;color: #fff;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Cancel</span></button>&nbsp;
+                    <button class="button-4" type="submit" name="cctv_submit"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Create Now</span></button>
+                </div>
+            </form>
         </div>
         <div id="create_datastream_dialog" class="box_dialog">
             <div class="block-menu" style="justify-content: space-between !important;">
@@ -48,14 +51,17 @@
                 </div>
             </div>
             <br>
-            <div class="textbox-1" style="width: 100% !important;">
-                <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="Kinesis Data Stream Name" class="input-1" name="name">
-            </div>
-            <br>
-            <div class="textbox-4" style="float: right !important;">
-                <button class="button-4" style="background-color: #262626; color: #fff; border: 1.5px solid #fff;" onclick="close_dialog()"><span style="z-index: 3;color: #fff;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Cancel</span></button>&nbsp;
-                <button class="button-4"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Create Now</span></button>
-            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="textbox-1" style="width: 100% !important;">
+                    <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="Kinesis Data Stream Name" class="input-1" name="kinesis_name_2">
+                </div>
+                <br>
+                <div class="textbox-4" style="float: right !important;">
+                    <button class="button-4" style="background-color: #262626; color: #fff; border: 1.5px solid #fff;" onclick="close_dialog()"><span style="z-index: 3;color: #fff;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Cancel</span></button>&nbsp;
+                    <button class="button-4" type="submit" name="kinesis_submit"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Create Now</span></button>
+                </div>
+            </form>
         </div>
     </div>
     </div>
@@ -174,9 +180,9 @@
                                 <hr style="border: 0.5px solid #3f3f3f;">
                                 <div class="menu-2">Delete now</div>
                             </div>
-                            <div class="pic-1"></div>
-                            <span style="font-size: 20px; font-weight: bold; margin-top: 10px; width: 100%; padding-left: 15px; padding-right: 15px; display: block; float: left;">{{ item.camera_name }}</span>
-                            <span style="font-size: 15px; font-weight: normal; display: block; float: left; width: 100%; padding-left: 15px; padding-right: 15px;">{{ item.kinesis_datastream_name }}</span>
+                            <div class="pic-1" onclick='window.location.href="../viewer/{{item.id_x}}"'></div>
+                            <span style="font-size: 20px; font-weight: bold; margin-top: 10px; width: 100%; padding-left: 15px; padding-right: 15px; display: block; float: left;" onclick='window.location.href="../viewer/{{item.id_x}}"'>{{ item.camera_name }}</span>
+                            <span style="font-size: 15px; font-weight: normal; display: block; float: left; width: 100%; padding-left: 15px; padding-right: 15px;" onclick='window.location.href="../viewer/{{item.id_x}}"'>{{ item.kinesis_datastream_name }}</span>
                         </div>
                     {% empty %}
                         <div class="panel-4">
