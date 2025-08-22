@@ -1,0 +1,245 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | VCD App</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/style2.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="{% static 'assets/Call.svg' %}">
+</head>
+<body>
+    <div class="dialog">
+        <div id="create_dialog" class="box_dialog">
+            <div class="block-menu" style="justify-content: space-between !important;">
+                <div style="margin-right: 15px; float: right;">
+                    <span style="font-size: 25px; font-weight: bold; width: 100%; display: block; float: left; margin-left: 20px;">Create New CCTV</span>
+                </div>
+                <div class="menu_button" style="margin-right: 15px; float: right;">
+                    <button class="button-2" onclick="close_dialog()"><img src="{% static 'assets/close.svg' %}" style="box-sizing: border-box; float: left;" onclick="close_dialog()"></button>
+                </div>
+            </div>
+            <br>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="textbox-1" style="width: 100% !important;">
+                    <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="CCTV Name" class="input-1" name="cctv_name">
+                </div>
+                <br>
+                <div class="textbox-1" style="width: 100% !important;">
+                    <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="Kinesis Data Stream Name" class="input-1" name="kinesis_name_1">
+                </div>
+                <br>
+                <div class="textbox-4" style="float: right !important;">
+                    <button class="button-4" style="background-color: #262626; color: #fff; border: 1.5px solid #fff;" onclick="close_dialog()"><span style="z-index: 3;color: #fff;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Cancel</span></button>&nbsp;
+                    <button class="button-4" type="submit" name="cctv_submit"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Create Now</span></button>
+                </div>
+            </form>
+        </div>
+        <div id="create_datastream_dialog" class="box_dialog">
+            <div class="block-menu" style="justify-content: space-between !important;">
+                <div style="margin-right: 15px; float: right;">
+                    <span style="font-size: 25px; font-weight: bold; width: 100%; display: block; float: left; margin-left: 20px;">Create New DataStream</span>
+                </div>
+                <div class="menu_button" style="margin-right: 15px; float: right;">
+                    <button class="button-2" onclick="close_dialog()"><img src="{% static 'assets/close.svg' %}" style="box-sizing: border-box; float: left;" onclick="close_dialog()"></button>
+                </div>
+            </div>
+            <br>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="textbox-1" style="width: 100% !important;">
+                    <img src="{% static 'assets/speed_camera_26.svg' %}" style="padding: 15px; box-sizing: border-box; float: left;">&nbsp;<input type="text" placeholder="Kinesis Data Stream Name" class="input-1" name="kinesis_name_2">
+                </div>
+                <br>
+                <div class="textbox-4" style="float: right !important;">
+                    <button class="button-4" style="background-color: #262626; color: #fff; border: 1.5px solid #fff;" onclick="close_dialog()"><span style="z-index: 3;color: #fff;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Cancel</span></button>&nbsp;
+                    <button class="button-4" type="submit" name="kinesis_submit"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Create Now</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    
+    <div class="menu_dropdown" id="addcontent">
+        <div class="menu_button" style=" float: right; width: 100%;">
+                <button class="button-2" style="width: 100%; padding: 6px;" onclick="create_cctv()"><img src="{% static 'assets/add.svg' %}" style="box-sizing: border-box; float: left;" onclick="create_cctv()">Add New CCTV</button>
+            </div>
+            <br>
+            <br>
+            <div class="menu_button" style=" float: right; width: 100%;">
+                <button class="button-2" style="width: 100%; padding: 6px;" onclick="create_datastream_dialog()"><img src="{% static 'assets/speed_camera_26.svg' %}" style="box-sizing: border-box; float: left;" onclick="create_datastream_dialog()">Add Data Stream</button>
+            </div>
+    </div>
+    <div class="menu" id="menu">
+        <div class="block-menu">
+            <div class="menu_button" style="margin-right: 15px; float: right;">
+                <button class="button-2" onclick="pin()"><img src="{% static 'assets/keep.svg' %}" style="box-sizing: border-box; float: left;" onclick="pin()"></button>
+            </div>
+            <div class="menu_button" style="margin-right: 15px; float: right;">
+                <button class="button-2" onclick="menu()"><img src="{% static 'assets/close.svg' %}" style="box-sizing: border-box; float: left;" onclick="menu()"></button>
+            </div>
+        </div>
+        <div style="width: 100%;height: 40px;display: flex;align-items: center;justify-content:baseline;"><h3 style="margin-left: 25px; font-size: 20px;">Tools</h3></div>
+        
+        <div class="block-menu">
+            <div class="menu_button" onclick='location.href="{% url "dashboard" %}"' style=" float: right; width: 100%;">
+                <button class="button-5"><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/CCTVManager.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;CCTV Dashboard</span></button>
+            </div>
+        </div>
+        <div class="block-menu">
+            <div class="menu_button" onclick='location.href="{% url "ds" %}"' style=" float: right; width: 100%;">
+                <button class="button-5"><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/DataStream.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;DS Manager</span></button>
+            </div>
+        </div>
+        <div class="block-menu">
+            <div class="menu_button" onclick='location.href="{% url "iam" %}"' style=" float: right; width: 100%;">
+                <button class="button-5"><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/UserAccount.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;IAM Manager</span></button>
+            </div>
+        </div>
+        <div class="block-menu">
+            <div class="menu_button" onclick='location.href="{% url "sos" %}"' style=" float: right; width: 100%;">
+                <button class="button-5"><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/Call.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;Emergency SOS</span></button>
+            </div>
+        </div>
+        <br>
+        <div style="width: 100%;height: 40px;display: flex;align-items: center;justify-content:baseline;"><h3 style="margin-left: 25px; font-size: 20px;">Active Cams</h3></div>
+        {% for item in items_cam %}
+        <div class="block-menu">
+            <div class="menu_button" onclick='location.href="{% url "dashboard" %}"' style=" float: right; width: 100%;">
+                <button class="button-5"><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/CCTVManager.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;{{ item.camera_name }}</span></button>
+            </div>
+        </div>
+        {% empty %}
+        <div class="block-menu">
+            <span style="width: 100%; display: flex; justify-content: center; align-items: center;">No Camera Active</span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="back-2" id="back2">
+        
+        <div class="header" id="header2">
+            <div class="header-left" style="margin-left: 15px;">
+                <div class="menu_button" style="float: left;">
+                    <button class="button-2" onclick="menu()"><img src="{% static 'assets/menu.svg' %}" onclick="menu()" style="box-sizing: border-box; float: left;"></button>
+                </div>
+                <div class="text_container" style="margin-left: 15px; float: left;">
+                    <img src="{% static 'assets/logo.webp' %}" style="box-sizing: border-box; width: 40px;">
+                </div>
+            </div>
+            <div class="header-right" style="margin-right: 15px; float: right; display: flex; align-items: center;">
+                
+                <div class="textbox-1" style="width: 400px; float: right; height: 37px;">
+                        <img src="{% static 'assets/search.svg' %}" style="padding: 9px; box-sizing: border-box;">&nbsp;<input type="text" placeholder="Search anything..." class="input-2">
+                </div> 
+                &nbsp;
+                &nbsp;
+                <div class="menu_button" style="margin-left: 15px; float: right;">
+                    <button class="button-2" id="addbutton"><img src="{% static 'assets/add.svg' %}" style="box-sizing: border-box; float: left;"></button>
+                </div>
+                <div class="menu_button" style="margin-left: 8px; float: right;">
+                    <button class="button-2"><img src="{% static 'assets/notifications.svg' %}" style="box-sizing: border-box; float: left;"></button>
+                </div>
+                <div class="menu_button" style="margin-left: 8px; float: right;">
+                    <button class="button-2"><img src="{% static 'assets/account.svg' %}" style="box-sizing: border-box; float: left;"></button>
+                </div>
+                
+            </div>
+        </div>
+        <div class="body_w">
+            <div class="active_container">
+                <div class="panel-2">
+                    <div style="float: left; display: flex;align-items: center;">
+                        <img src="{% static 'assets/emergency.svg' %}" style="box-sizing: border-box; float: left; width: 26px;">
+                        &nbsp;&nbsp;
+                        <h2 style="font-size: 27px; float: left;">Emergency SOS</h2>
+                    </div>
+                    &nbsp;
+                    <div class="textbox-4" style="float: right !important;">
+
+                    </div>
+                </div>
+                <div class="panel-5">
+                    <div class="panel-6" style="width: 70%;">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="panel-7">
+                                <div class="textbox-1" style="width: 100% !important; height: 80px; border-radius: 20px;">
+                                    <img src="{% static 'assets/dial.svg' %}" style="padding: 15px; box-sizing: border-box; width: 70px;">&nbsp;<input type="phone" placeholder="Number..." class="input-1" name="phone_num" style="font-size: 30px;" id="phone_num">
+                                </div>
+                                <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+                                    <div>
+                                        <div class="bar-1">
+                                            <button class="button-num" type="button" onclick="press('1')">1</button>
+                                            <button class="button-num" type="button" onclick="press('2')">2</button>
+                                            <button class="button-num" type="button" onclick="press('3')">3</button>
+                                        </div>
+                                        <div class="bar-1">
+                                            <button class="button-num" type="button" onclick="press('4')">4</button>
+                                            <button class="button-num" type="button" onclick="press('5')">5</button>
+                                            <button class="button-num" type="button" onclick="press('6')">6</button>
+                                        </div>
+                                        <div class="bar-1">
+                                            <button class="button-num" type="button" onclick="press('7')">7</button>
+                                            <button class="button-num" type="button" onclick="press('8')">8</button>
+                                            <button class="button-num" type="button" onclick="press('9')">9</button>
+                                        </div>
+                                        <div class="bar-1">
+                                            <button class="button-num" type="button" onclick="press('+')">+</button>
+                                            <button class="button-num" type="button" onclick="press('0')">0</button>
+                                            <button class="button-num" type="button" onclick="press('#')">#</button>
+                                        </div>
+                                        <div class="bar-1" style="display: flex; justify-content:center; align-items: center;">
+                                            <button class="button-4" onclick="" type="submit" id="create_cctv_btn" style="margin: 20px;" name="submit_3"><span style="z-index: 3;color: black;position: relative;transition: color 0.3s ease; font-weight: normal !important;" class="label-1">Test Call</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>    
+                    </div>
+                    <div class="panel-6" style="width: 30%; overflow-y: scroll;">
+                        <div style="margin: 10px; width: 100%; height: calc(100% - 20px);">
+                            <h2 style="font-size: 24px; float: left;">Outbound Calls</h2>
+                            <br>
+                            <br>
+                            <div style="width: 100%; height: 100%;">
+                                {% for item in items_oc %}
+                                <div class="block-menu">
+                                    <div class="menu_button" onclick='location.href="{% url "dashboard" %}"' style=" float: right; width: 100%;">
+                                        <button class="button-5"><span style="position: relative; z-index: 6; width: 100%; display:flex; align-items:  center; box-sizing: border-box;"><img src="{% static 'assets/ecall.svg' %}" style="margin-left: 20px;box-sizing: border-box; float: left; width: 40px; height: 40px;" onclick="pin()">&nbsp;&nbsp;&nbsp;{{ item.call_from }}<br>&nbsp;&nbsp;&nbsp;{{ item.call_to }}</span></button>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="block-menu">
+                                    <span style="width: 100%; display: flex; justify-content: center; align-items: center;">No Camera Active</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="footer" id="footer">
+            <div class="left-side">
+                <span style="font-size: 14px; margin-left: 50px; color:#b6b6b6">Made with ❤️ by Tim Anak Sholeh - AIC COMPFEST</span>
+            </div>
+        </div>
+     </div>
+    <script>
+        phone_num = document.getElementById('phone_num');
+        
+        function press(val) {
+            phone_num.value += val;
+        }
+    </script>
+    <script src="{% static 'scripts/dynamic.js' %}"></script>
+    <script src="{% static 'scripts/dialog.js' %}"></script>
+</body>
+</html>
