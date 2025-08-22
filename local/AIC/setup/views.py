@@ -22,14 +22,22 @@ def setup(request):
                 return redirect('failed')
             else:
                 if check_active(kinesis) and (int(id) >= min_x and int(id) <= max_x):
+                    start_camera.delay(id, kinesis, "Key01", location)
+                    request.session["success"] = True
                     return redirect('success')
                 else:
+                    request.session["failed"] = True
                     return redirect('failed')
-    return render(request, "kinesis_setup.html", {"min_x":min_x,"max_x":max_x})
+    return render(request, "kinesis_setup.html", {"min_x":min_x,"max_x":max_x-1})
 
 def success(request):
-    start_camera.delay(id, kinesis, "Key01", location)
-    return render(request, "success.html")
+    if request.session.get("success") == True:
+        del request.session["success"]
+        return render(request, "success.html")
+    else:
+        return redirect('setup')
 
 def failed(request):
+    if request.session.get("failed") == True:
+        del request.session["failed"]
     return render(request, "failed.html")

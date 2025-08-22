@@ -15,6 +15,8 @@ import os
 import base64
 import json
 import time
+sys.path.append("./")
+from db import Database_X
 from PIL import Image
 from celery import Celery
 from botocore.config import Config
@@ -44,6 +46,7 @@ async def timer():
 
 
 async def readdatah(stream_name):
+    relation = Database_X()
     kinesis = boto3.client("kinesis", 
                             aws_access_key_id=os.getenv("ACCESS_KEY"),
                             aws_secret_access_key=os.getenv("SECRET_ACCESS_KEY"),
@@ -83,6 +86,7 @@ async def readdatah(stream_name):
 
         records = response["Records"]
         if records:
+            logger.info("Got data. ")
             record_data = records[0]["Data"]
             payload = json.loads(record_data.decode("utf-8"))
 
@@ -98,17 +102,21 @@ async def readdatah(stream_name):
                 locations[i][0], locations[i][1], locations[i][2], locations[i][3] = int(locations[i][0]), int(locations[i][1]), int(locations[i][2]), int(locations[i][3])
                 d_img = draw(d_img, locations[i], scores[i], labels[i])
 
+            if 'vehicle' in labels:
+                relation.vech_update(kinesis_name)
+
             if 'accident' in labels:
                 logger.info("Accident detected...")
+                relation.acc_update(kinesis_name)
                 cv2.imwrite(f"/home/ubuntu/AIC_Inference/.temp/{stream_name}_{counter}.jpg",d_img)
                 s3.upload_file(Filename=f"/home/ubuntu/AIC_Inference/.temp/{stream_name}_{counter}.jpg", Bucket='app-bucket-8283', Key=f'Accident/{counter}.jpg')
 
                 if timerStatus == False:
                     print("API running...")
+                    relation.tel_update(kinesis_name)
                     async with httpx.AsyncClient(timeout=60.0) as client:
                         data = {"location": geolocation, "accident_code": "01212XYXY"}
                         response = await client.post(url, json=data)
-                        
                         print(response.text)
                     asyncio.create_task(timer())
                 try:

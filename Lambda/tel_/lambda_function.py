@@ -5,8 +5,6 @@ sys.path.append(".")
 import os
 from twilio.rest import Client
 
-load_dotenv(".credentials")
-
 def lambda_handler(event, context):
     # TODO implement
     account_sid = os.getenv("ACCOUNT_SID")
